@@ -9,6 +9,7 @@ using OpenTelemetry.Resources;
 Console.WriteLine("Hello, World!");
 
 var traceProvider = Sdk.CreateTracerProviderBuilder()
+    .AddSource(OpenTelemetryConstants.ActivitySourceName) 
     .ConfigureResource(configure =>
     {
         configure.AddService(OpenTelemetryConstants.ServiceName, OpenTelemetryConstants.ServiceVersion)
