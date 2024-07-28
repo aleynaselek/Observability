@@ -8,6 +8,13 @@ namespace Observability.ConsoleApp
 {
     internal class ServiceTwo
     {
-        
+        internal async Task<int> WriteToFile(string text)
+        {
+            var activity = ActivitySourceProvider.Source.StartActivity();
+
+            await File.WriteAllTextAsync("myFile.txt", text);
+
+            return (await File.ReadAllTextAsync("myFile.txt")).Length;
+        }
     }
 }
