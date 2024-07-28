@@ -27,13 +27,15 @@ namespace Observability.ConsoleApp
 
                 var responseContent = await result.Content.ReadAsStringAsync();
 
+                activity?.AddTag("response.length", responseContent.Length);
+
                 eventTags.Add("google body length", responseContent.Length);
                 activity?.AddEvent(new("google'a istek tamamlandı", tags: eventTags));
                 return responseContent.Length;
             }
             catch (Exception ex)
             {
-                activity.SetStatus(ActivityStatusCode.Error, ex.Message);
+                activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
                 return 0;
             }
 
