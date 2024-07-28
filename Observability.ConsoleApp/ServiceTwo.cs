@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,21 @@ namespace Observability.ConsoleApp
     {
         internal async Task<int> WriteToFile(string text)
         {
-            var activity = ActivitySourceProvider.Source.StartActivity();
+            Activity.Current?.SetTag("Güncel activity", "1");
 
-            await File.WriteAllTextAsync("myFile.txt", text);
+            using (var activity = ActivitySourceProvider.Source.StartActivity("a"))
+            {     
+                await File.WriteAllTextAsync("myFile.txt", text);
 
-            return (await File.ReadAllTextAsync("myFile.txt")).Length;
+                var a = (await File.ReadAllTextAsync("myFile.txt")).Length;
+            }
+            
+            using (var activity2 = ActivitySourceProvider.Source.StartActivity("b"))
+            {     
+                await File.WriteAllTextAsync("myFile.txt", text);
+
+                return (await File.ReadAllTextAsync("myFile.txt")).Length;
+            }
         }
     }
 }
