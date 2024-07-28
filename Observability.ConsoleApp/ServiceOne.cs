@@ -20,6 +20,8 @@ namespace Observability.ConsoleApp
                 var eventTags = new ActivityTagsCollection();
 
                 activity?.AddEvent(new("google'a istek başladı", tags: eventTags));
+                activity?.AddTag("request.schema", "https");
+                activity?.AddTag("request.method", "get");
 
                 var result = await httpClient.GetAsync("https://www.google.com");
 
