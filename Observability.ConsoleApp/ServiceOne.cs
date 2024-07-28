@@ -15,7 +15,6 @@ namespace Observability.ConsoleApp
         {
             using var activity = ActivitySourceProvider.Source.StartActivity(kind:System.Diagnostics.ActivityKind.Producer, name:"CustomMakeRequestToGoogle");
 
-
             try
             {
                 var eventTags = new ActivityTagsCollection();
